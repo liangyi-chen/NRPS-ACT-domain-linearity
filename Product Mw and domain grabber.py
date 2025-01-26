@@ -69,9 +69,11 @@ def count_domains(domain_list):
     return a_domain_count, c_domain_count, t_domain_count
 
 NRP_file = []
-for file in glob.glob(('*'+'.json')):
+for file in glob.glob(('MIBiG_data/*'+'.json')):
     if check_file_for_nrp(file):
         NRP_file.append(file)
+
+
 '''
 NRP_file = ['BGC0002624.json']
 '''
@@ -102,13 +104,18 @@ print(csv_output)
 
 
 
+output_directory = 'Output/'
+# Create the directory if it doesn't exist
+if not os.path.exists(output_directory):
+    os.makedirs(output_directory)
+
 output_file = 'output.csv'
-'''
+
 # Write the data to a CSV file
-with open(output_file, 'w', newline='') as file:
+with open(output_directory+output_file, 'w', newline='') as file:
     writer = csv.writer(file)
     writer.writerows(csv_output)
-'''
+
 
 filtered_csv = [row for row in csv_output if row[3] is not None and row[1] == 'NRPS'] #remove the rows where Mw is None and type is not NRPS
 
@@ -276,7 +283,7 @@ html_fig1 = '''
 </body>
 </html>
 '''
-with open("A_domain.html", "w") as file:
+with open(output_directory+"A_domain.html", "w") as file:
     file.write(html_fig1)
 
 fig2=go.Figure()
@@ -389,7 +396,7 @@ html_fig2 = '''
 </body>
 </html>
 '''
-with open("C_domain.html", "w") as file:
+with open(output_directory+"C_domain.html", "w") as file:
     file.write(html_fig2)
 
 fig3=go.Figure()
@@ -510,7 +517,7 @@ html_fig3 = '''
 </body>
 </html>
 '''
-with open("T_domain.html", "w") as file:
+with open(output_directory+"T_domain.html", "w") as file:
     file.write(html_fig3)
 
 
